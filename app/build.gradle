@@ -36,6 +36,9 @@ application {
     mainClass = 'edu.touro.mco152.bm.App'
 }
 
+// Note: sourceSets block for persistence.xml was removed due to
+// Gradle 9 incompatibility - output.dir() syntax not supported
+
 
 jar {
     // Story #3: Produce a single executable fat JAR with all dependencies bundled
