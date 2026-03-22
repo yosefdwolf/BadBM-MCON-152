@@ -35,3 +35,7 @@ build
 
 # Ignore Kotlin plugin data
 .kotlin
+
+# Compiled class files
+*.class
+build/
