@@ -5,10 +5,8 @@ import edu.touro.mco152.bm.ui.Gui;
 import edu.touro.mco152.bm.ui.MainFrame;
 import edu.touro.mco152.bm.ui.SelectFrame;
 
-import javax.swing.SwingWorker.StateValue;
 import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
-import java.beans.PropertyChangeEvent;
 import java.io.*;
 import java.nio.file.Files;
 import java.util.Properties;
@@ -46,6 +44,7 @@ public class App {
     public static int numOfBlocks = 32;     // desired number of blocks
     public static int blockSizeKb = 512;    // size of a block in KBs
     public static DiskWorker worker = null;
+    private static SwingWorker<Boolean, Void> swingRunner = null;
     public static int nextMarkNumber = 1;   // number of the next mark
     public static double wMax = -1, wMin = -1, wAvg = -1;
     public static double rMax = -1, rMin = -1, rAvg = -1;
@@ -240,7 +239,10 @@ public class App {
             msg("worker is null abort...");
             return;
         }
-        worker.cancel(true);
+        worker.cancel();
+        if (swingRunner != null) {
+            swingRunner.cancel(true);
+        }
     }
 
     public static void startBenchmark() {
@@ -263,29 +265,17 @@ public class App {
         Gui.mainFrame.adjustSensitivity();
 
         //4. set up disk worker thread and its event handlers
-        worker = new DiskWorker();
-        worker.addPropertyChangeListener((final PropertyChangeEvent event) -> {
-            switch (event.getPropertyName()) {
-                case "progress":
-                    int value = (Integer) event.getNewValue();
-                    Gui.progressBar.setValue(value);
-                    long kbProcessed = (value) * App.targetTxSizeKb() / 100;
-                    Gui.progressBar.setString(kbProcessed + " / " + App.targetTxSizeKb());
-                    break;
-                case "state":
-                    switch ((StateValue) event.getNewValue()) {
-                        case STARTED:
-                            Gui.progressBar.setString("0 / " + App.targetTxSizeKb());
-                            break;
-                        case DONE:
-                            break;
-                    } // end inner switch
-                    break;
-            }
-        });
+        worker = new DiskWorker(new SwingBenchmarkUI());
+        Gui.progressBar.setString("0 / " + App.targetTxSizeKb());
 
-        //5. start the Swing worker thread
-        worker.execute();
+        //5. wrap in a SwingWorker so the benchmark runs off the EDT
+        swingRunner = new SwingWorker<>() {
+            @Override
+            protected Boolean doInBackground() throws Exception {
+                return worker.executeBenchmark();
+            }
+        };
+        swingRunner.execute();
     }
 
     /**
@@ -388,6 +378,25 @@ public class App {
         rAvg = -1;
         rMax = -1;
         rMin = -1;
+    }
+
+    /**
+     * Initialises App configuration from the properties file (or defaults) without
+     * launching any Swing components. Intended for use by tests and non-GUI entry points.
+     * Sets {@link #locationDir} and {@link #dataDir} so that {@link DiskWorker} can
+     * operate without a running GUI.
+     */
+    public static void setupDefaultAsPerProperties() {
+        p = new Properties();
+        loadConfig();
+        if (locationDir == null) {
+            locationDir = new File(System.getProperty("user.home"));
+        }
+        dataDir = new File(locationDir.getAbsolutePath() + File.separator + DATADIRNAME);
+        if (!dataDir.exists()) {
+            dataDir.mkdirs();
+        }
+        System.setProperty("derby.system.home", APP_CACHE_DIR);
     }
 
     public enum State {IDLE_STATE, DISK_TEST_STATE}
