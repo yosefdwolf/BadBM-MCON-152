@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="edu.touro.mco152.bm.DiskWorkerDIPTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-03-23T22:32:42.225Z" hostname="LAPTOP-QH4GRT7M" time="6.798">
+  <properties/>
+  <testcase name="writeOnlyBenchmarkCompletesSuccessfully()" classname="edu.touro.mco152.bm.DiskWorkerDIPTest" time="6.796"/>
+  <system-out><![CDATA[os: Windows 11
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows
+
+[EL Fine]: server: 2026-03-23 18:32:43.972--Thread(Thread[#1,Test worker,5,main])--Configured server platform: org.eclipse.persistence.platform.server.NoServerPlatform
+[EL Config]: metadata: 2026-03-23 18:32:44.515--ServerSession(938199512)--Thread(Thread[#1,Test worker,5,main])--The access type for the persistent class [class edu.touro.mco152.bm.persist.DiskRun] is set to [FIELD].
+[EL Config]: metadata: 2026-03-23 18:32:44.605--ServerSession(938199512)--Thread(Thread[#1,Test worker,5,main])--The alias name for the entity class [class edu.touro.mco152.bm.persist.DiskRun] is being defaulted to: DiskRun.
+[EL Config]: metadata: 2026-03-23 18:32:44.697--ServerSession(938199512)--Thread(Thread[#1,Test worker,5,main])--The column name for element [ioMode] is being defaulted to: IOMODE.
+[EL Config]: metadata: 2026-03-23 18:32:44.717--ServerSession(938199512)--Thread(Thread[#1,Test worker,5,main])--The column name for element [numMarks] is being defaulted to: NUMMARKS.
+[EL Config]: metadata: 2026-03-23 18:32:44.718--ServerSession(938199512)--Thread(Thread[#1,Test worker,5,main])--The column name for element [runMin] is being defaulted to: RUNMIN.
+[EL Config]: metadata: 2026-03-23 18:32:44.72--ServerSession(938199512)--Thread(Thread[#1,Test worker,5,main])--The column name for element [runAvg] is being defaulted to: RUNAVG.
+[EL Config]: metadata: 2026-03-23 18:32:44.72--ServerSession(938199512)--Thread(Thread[#1,Test worker,5,main])--The column name for element [diskInfo] is being defaulted to: DISKINFO.
+[EL Config]: metadata: 2026-03-23 18:32:44.722--ServerSession(938199512)--Thread(Thread[#1,Test worker,5,main])--The column name for element [totalMarks] is being defaulted to: TOTALMARKS.
+[EL Config]: metadata: 2026-03-23 18:32:44.726--ServerSession(938199512)--Thread(Thread[#1,Test worker,5,main])--The column name for element [blockOrder] is being defaulted to: BLOCKORDER.
+[EL Config]: metadata: 2026-03-23 18:32:44.728--ServerSession(938199512)--Thread(Thread[#1,Test worker,5,main])--The column name for element [blockSize] is being defaulted to: BLOCKSIZE.
+[EL Config]: metadata: 2026-03-23 18:32:44.728--ServerSession(938199512)--Thread(Thread[#1,Test worker,5,main])--The column name for element [txSize] is being defaulted to: TXSIZE.
+[EL Config]: metadata: 2026-03-23 18:32:44.73--ServerSession(938199512)--Thread(Thread[#1,Test worker,5,main])--The column name for element [numBlocks] is being defaulted to: NUMBLOCKS.
+[EL Config]: metadata: 2026-03-23 18:32:44.73--ServerSession(938199512)--Thread(Thread[#1,Test worker,5,main])--The column name for element [runMax] is being defaulted to: RUNMAX.
+[EL Config]: metadata: 2026-03-23 18:32:44.732--ServerSession(938199512)--Thread(Thread[#1,Test worker,5,main])--The column name for element [startTime] is being defaulted to: STARTTIME.
+[EL Config]: metadata: 2026-03-23 18:32:44.734--ServerSession(938199512)--Thread(Thread[#1,Test worker,5,main])--The column name for element [id] is being defaulted to: ID.
+[EL Config]: metadata: 2026-03-23 18:32:44.734--ServerSession(938199512)--Thread(Thread[#1,Test worker,5,main])--The column name for element [endTime] is being defaulted to: ENDTIME.
+[EL Info]: 2026-03-23 18:32:45.394--ServerSession(938199512)--Thread(Thread[#1,Test worker,5,main])--EclipseLink, version: Eclipse Persistence Services - 4.0.2.v202306161219
+[EL Fine]: connection: 2026-03-23 18:32:47.414--Thread(Thread[#1,Test worker,5,main])--Detected database platform: org.eclipse.persistence.platform.database.JavaDBPlatform
+[EL Fine]: connection: 2026-03-23 18:32:47.473--ServerSession(938199512)--Connection(904612411)--Thread(Thread[#1,Test worker,5,main])--connecting(DatabaseLogin(
+	platform=>JavaDBPlatform
+	user name=> ""
+	datasource URL=> "jdbc:derby:derbyDB;create=true"
+))
+[EL Config]: connection: 2026-03-23 18:32:47.481--ServerSession(938199512)--Connection(649681675)--Thread(Thread[#1,Test worker,5,main])--Connected: jdbc:derby:derbyDB
+	User: APP
+	Database: Apache Derby  Version: 10.15.2.0 - (1873585)
+	Driver: Apache Derby Embedded JDBC Driver  Version: 10.15.2.0 - (1873585)
+[EL Fine]: connection: 2026-03-23 18:32:47.75--ServerSession(938199512)--Thread(Thread[#1,Test worker,5,main])--/file:/C:/Users/yosef wolf/Desktop/BadBM/lcmbadbm/app/build/resources/main/_jDiskMarkPU login successful
+[EL Fine]: sql: 2026-03-23 18:32:48.81--ClientSession(337460547)--Connection(649681675)--Thread(Thread[#1,Test worker,5,main])--INSERT INTO DiskRun (BLOCKORDER, BLOCKSIZE, DISKINFO, ENDTIME, IOMODE, NUMBLOCKS, NUMMARKS, RUNAVG, RUNMAX, RUNMIN, STARTTIME, TOTALMARKS, TXSIZE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+	bind => [0, 64, Unknown-Drive-Model for: C, 2026-03-23 18:32:43.168, 1, 4, 2, 5.237496698236583, 6.040631705101193, 4.434361691371974, 2026-03-23 18:32:42.402, 0, 258]
+]]></system-out>
+  <system-err><![CDATA[Mar 23, 2026 6:32:42 PM edu.touro.mco152.bm.DiskWorker executeBenchmark
+INFO: *** New worker thread started ***
+]]></system-err>
+</testsuite>
