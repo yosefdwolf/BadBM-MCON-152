@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="edu.touro.mco152.bm.DiskMarkTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-03-22T19:25:27.646Z" hostname="LAPTOP-QH4GRT7M" time="0.025">
+  <properties/>
+  <testcase name="getBwMbSecAsString_zeroBandwidth_returnsZeroString()" classname="edu.touro.mco152.bm.DiskMarkTest" time="0.001"/>
+  <testcase name="setGetMarkNum_roundTrip_retrievesSameValue()" classname="edu.touro.mco152.bm.DiskMarkTest" time="0.001"/>
+  <testcase name="getBwMbSecAsString_standardValue_conformsToDecimalFormat()" classname="edu.touro.mco152.bm.DiskMarkTest" time="0.005"/>
+  <testcase name="toString_standardWriteMark_containsAllFourExpectedComponents()" classname="edu.touro.mco152.bm.DiskMarkTest" time="0.012"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
