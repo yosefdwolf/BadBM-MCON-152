@@ -47,9 +47,8 @@ public interface BenchmarkUI {
 
     /**
      * Returns true if the user has requested early termination of the benchmark.
-     * Each UI implementation is responsible for tracking its own cancel signal —
-     * Swing delegates to {@code SwingWorker.isCancelled()}, headless implementations
-     * maintain their own flag.
+     * Each UI implementation is responsible for tracking its own cancel signal
+     * using whatever mechanism fits its environment.
      *
      * @return true if cancellation was requested
      */

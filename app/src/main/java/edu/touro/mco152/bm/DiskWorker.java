@@ -22,10 +22,10 @@ import static edu.touro.mco152.bm.DiskMark.MarkType.WRITE;
  * time, so this class has no knowledge of Swing or any other UI framework.
  *
  * <p>Depends on static configuration values set in {@link App}.
- * Call {@link #executeBenchmark()} to run. To cancel, use the mechanism provided
- * by the {@link BenchmarkUI} implementation (e.g. {@code SwingWorker.cancel(true)}
- * for the Swing UI). This class polls {@link BenchmarkUI#isCancelled()} between
- * marks so each UI controls its own cancellation signal.
+ * Call {@link #executeBenchmark()} to run. To cancel, use whatever mechanism
+ * the {@link BenchmarkUI} implementation exposes. This class polls
+ * {@link BenchmarkUI#isCancelled()} between marks so each UI controls its own
+ * cancellation signal.
  */
 public class DiskWorker {
 

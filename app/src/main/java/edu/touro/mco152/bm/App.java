@@ -235,8 +235,8 @@ public class App {
     }
 
     public static void cancelBenchmark() {
-        if (swingRunner == null) {
-            msg("worker is null abort...");
+        if (state != State.DISK_TEST_STATE) {
+            msg("No benchmark running, nothing to cancel.");
             return;
         }
         // SwingBenchmarkUI.isCancelled() delegates to swingRunner.isCancelled(),
