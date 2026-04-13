@@ -16,6 +16,7 @@ public class NonSwingBenchmarkUI implements BenchmarkUI {
     private final List<String> messages = new ArrayList<>();
     private final AtomicBoolean completed = new AtomicBoolean(false);
     private final AtomicBoolean completedSuccess = new AtomicBoolean(false);
+    private volatile boolean cancelled = false;
     private volatile double lastMbPerSec = 0.0;
     private volatile double lastCumAvg = 0.0;
     private volatile double lastCumMax = 0.0;
@@ -47,6 +48,19 @@ public class NonSwingBenchmarkUI implements BenchmarkUI {
         lastMbPerSec = mbPerSec;
         lastCumAvg = cumAvg;
         lastCumMax = cumMax;
+    }
+
+    /**
+     * Requests early termination. DiskWorker polls {@link #isCancelled()} between
+     * marks and exits its loops when this is set.
+     */
+    public void cancel() {
+        cancelled = true;
+    }
+
+    @Override
+    public boolean isCancelled() {
+        return cancelled;
     }
 
     // --- Accessors for test assertions ---

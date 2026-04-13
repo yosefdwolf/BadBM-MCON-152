@@ -235,14 +235,13 @@ public class App {
     }
 
     public static void cancelBenchmark() {
-        if (worker == null) {
-            msg("worker is null abort...");
+        if (state != State.DISK_TEST_STATE) {
+            msg("No benchmark running, nothing to cancel.");
             return;
         }
-        worker.cancel();
-        if (swingRunner != null) {
-            swingRunner.cancel(true);
-        }
+        // SwingBenchmarkUI.isCancelled() delegates to swingRunner.isCancelled(),
+        // so this single call is the only cancel signal needed.
+        swingRunner.cancel(true);
     }
 
     public static void startBenchmark() {
@@ -264,8 +263,11 @@ public class App {
         state = State.DISK_TEST_STATE;
         Gui.mainFrame.adjustSensitivity();
 
-        //4. set up disk worker thread and its event handlers
-        worker = new DiskWorker(new SwingBenchmarkUI());
+        //4. set up disk worker thread and its event handlers.
+        // SwingBenchmarkUI needs the SwingWorker reference to implement isCancelled(),
+        // so we create it first and wire the runner in before executing.
+        SwingBenchmarkUI swingUI = new SwingBenchmarkUI();
+        worker = new DiskWorker(swingUI);
         Gui.progressBar.setString("0 / " + App.targetTxSizeKb());
 
         //5. wrap in a SwingWorker so the benchmark runs off the EDT
@@ -275,6 +277,7 @@ public class App {
                 return worker.executeBenchmark();
             }
         };
+        swingUI.setSwingRunner(swingRunner); // gives isCancelled() its delegate
         swingRunner.execute();
     }
 
