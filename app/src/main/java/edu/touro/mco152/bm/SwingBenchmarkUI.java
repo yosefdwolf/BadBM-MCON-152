@@ -14,8 +14,20 @@ import javax.swing.*;
  * Thread via {@link SwingUtilities#invokeLater} so they are safe to call from
  * any worker thread.
  */
-public class
-SwingBenchmarkUI implements BenchmarkUI {
+public class SwingBenchmarkUI implements BenchmarkUI {
+
+    /**
+     * Reference to the SwingWorker that is running the benchmark.
+     * Set via {@link #setSwingRunner} immediately after the SwingWorker is created,
+     * so that {@link #isCancelled()} can delegate to its built-in cancel signal
+     * rather than requiring a separate cancel flag in DiskWorker.
+     */
+    private SwingWorker<?, ?> swingRunner;
+
+    /** Wires in the SwingWorker so {@link #isCancelled()} can delegate to it. */
+    public void setSwingRunner(SwingWorker<?, ?> runner) {
+        this.swingRunner = runner;
+    }
 
     public SwingBenchmarkUI() {
         // Initialise chart legend visibility from current App config.
@@ -96,5 +108,15 @@ SwingBenchmarkUI implements BenchmarkUI {
                 Gui.mainFrame.refreshReadMetrics();
             }
         });
+    }
+
+    /**
+     * Delegates to the SwingWorker's built-in cancel signal so that
+     * {@code swingRunner.cancel(true)} is the single point of cancellation —
+     * no duplicate flag needed in DiskWorker.
+     */
+    @Override
+    public boolean isCancelled() {
+        return swingRunner != null && swingRunner.isCancelled();
     }
 }

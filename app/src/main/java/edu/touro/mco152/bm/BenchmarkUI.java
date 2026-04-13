@@ -44,4 +44,14 @@ public interface BenchmarkUI {
      * @param cumMax    cumulative maximum MB/s so far
      */
     void updateStats(double mbPerSec, double cumAvg, double cumMax);
+
+    /**
+     * Returns true if the user has requested early termination of the benchmark.
+     * Each UI implementation is responsible for tracking its own cancel signal —
+     * Swing delegates to {@code SwingWorker.isCancelled()}, headless implementations
+     * maintain their own flag.
+     *
+     * @return true if cancellation was requested
+     */
+    boolean isCancelled();
 }
