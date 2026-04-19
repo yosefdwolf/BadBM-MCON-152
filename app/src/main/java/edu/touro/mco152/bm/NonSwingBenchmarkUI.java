@@ -21,6 +21,14 @@ public class NonSwingBenchmarkUI implements BenchmarkUI {
     private volatile double lastCumAvg = 0.0;
     private volatile double lastCumMax = 0.0;
 
+    /** No-op: no chart to update in a non-Swing environment. */
+    @Override
+    public void addWriteMark(DiskMark mark) {}
+
+    /** No-op: no chart to update in a non-Swing environment. */
+    @Override
+    public void addReadMark(DiskMark mark) {}
+
     @Override
     public void updateProgress(int percent) {
         progress.set(percent);
