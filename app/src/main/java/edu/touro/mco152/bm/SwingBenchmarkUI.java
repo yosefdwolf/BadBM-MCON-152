@@ -39,6 +39,22 @@ public class SwingBenchmarkUI implements BenchmarkUI {
     }
 
     /**
+     * Adds the write mark data point to the chart and refreshes write metrics labels.
+     */
+    @Override
+    public void addWriteMark(DiskMark mark) {
+        SwingUtilities.invokeLater(() -> Gui.addWriteMark(mark));
+    }
+
+    /**
+     * Adds the read mark data point to the chart and refreshes read metrics labels.
+     */
+    @Override
+    public void addReadMark(DiskMark mark) {
+        SwingUtilities.invokeLater(() -> Gui.addReadMark(mark));
+    }
+
+    /**
      * Updates the progress bar value and its KB-processed label.
      */
     @Override

@@ -152,6 +152,7 @@ public class DiskWorker {
                         + "(" + Util.displayString(mbWritten) + "MB written in "
                         + Util.displayString(sec) + " sec)");
                 App.updateMetrics(wMark);
+                ui.addWriteMark(wMark);
 
                 /*
                   Let the UI know the interim result described by the current Mark
@@ -251,6 +252,7 @@ public class DiskWorker {
                 ui.showMessage("m:" + m + " READ IO is " + rMark.getBwMbSec() + " MB/s    "
                         + "(MBread " + mbRead + " in " + sec + " sec)");
                 App.updateMetrics(rMark);
+                ui.addReadMark(rMark);
 
                 /*
                   Let the UI know the interim result described by the current Mark

@@ -8,6 +8,20 @@ package edu.touro.mco152.bm;
 public interface BenchmarkUI {
 
     /**
+     * Records a completed write mark and updates any chart or display that plots per-mark data.
+     *
+     * @param mark the completed write mark
+     */
+    void addWriteMark(DiskMark mark);
+
+    /**
+     * Records a completed read mark and updates any chart or display that plots per-mark data.
+     *
+     * @param mark the completed read mark
+     */
+    void addReadMark(DiskMark mark);
+
+    /**
      * Reports overall benchmark progress as a percentage.
      *
      * @param percent 0–100
