@@ -325,8 +325,13 @@ public class App {
         return (long) blockSizeKb * numOfBlocks;
     }
 
+    /**
+     * INDUCED BUG for JUnit assignment: changed {@code * numOfMarks} to
+     * {@code + numOfMarks}.  This breaks the cross-check test in AppTest
+     * that verifies targetTxSizeKb() == numOfMarks * targetMarkSizeKb().
+     */
     public static long targetTxSizeKb() {
-        return (long) blockSizeKb * numOfBlocks * numOfMarks;
+        return (long) blockSizeKb * numOfBlocks + numOfMarks;
     }
 
     public static void updateMetrics(DiskMark mark) {
