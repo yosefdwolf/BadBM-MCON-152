@@ -139,6 +139,11 @@ public final class Gui {
      */
     public static class RunPanelObserver implements BenchmarkObserver {
 
+        /**
+         * Adds the completed run to the run history panel on the Swing EDT.
+         *
+         * @param run the completed benchmark run to display
+         */
         @Override
         public void onBenchmarkComplete(DiskRun run) {
             javax.swing.SwingUtilities.invokeLater(() -> Gui.runPanel.addRun(run));

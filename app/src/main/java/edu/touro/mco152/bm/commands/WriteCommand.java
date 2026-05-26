@@ -34,6 +34,14 @@ public class WriteCommand implements BenchmarkCommand {
     private final DiskRun.BlockSequence blockSequence;
     private final int startFileNum;
 
+    /**
+     * @param ui           UI adapter for progress and message callbacks
+     * @param numOfMarks   number of benchmark marks to record
+     * @param numOfBlocks  number of blocks per mark
+     * @param blockSizeKb  size of each block in kilobytes
+     * @param blockSequence sequential or random block access pattern
+     * @param startFileNum  starting mark number for file naming
+     */
     public WriteCommand(BenchmarkUI ui, int numOfMarks, int numOfBlocks,
                         int blockSizeKb, DiskRun.BlockSequence blockSequence, int startFileNum) {
         this.ui = ui;
@@ -44,6 +52,11 @@ public class WriteCommand implements BenchmarkCommand {
         this.startFileNum = startFileNum;
     }
 
+    /**
+     * Runs the write benchmark, recording throughput for each mark.
+     *
+     * @return the completed {@link DiskRun} with final metrics
+     */
     @Override
     public DiskRun execute() {
         DiskRun run = new DiskRun(DiskRun.IOMode.WRITE, blockSequence);
