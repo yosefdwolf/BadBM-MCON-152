@@ -5,8 +5,6 @@ import edu.touro.mco152.bm.BenchmarkUI;
 import edu.touro.mco152.bm.DiskMark;
 import edu.touro.mco152.bm.Util;
 import edu.touro.mco152.bm.persist.DiskRun;
-import edu.touro.mco152.bm.persist.EM;
-import jakarta.persistence.EntityManager;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -47,7 +45,7 @@ public class WriteCommand implements BenchmarkCommand {
     }
 
     @Override
-    public boolean execute() {
+    public DiskRun execute() {
         DiskRun run = new DiskRun(DiskRun.IOMode.WRITE, blockSequence);
         run.setNumMarks(numOfMarks);
         run.setNumBlocks(numOfBlocks);
@@ -123,11 +121,6 @@ public class WriteCommand implements BenchmarkCommand {
             run.setEndTime(new Date());
         }
 
-        EntityManager em = EM.getEntityManager();
-        em.getTransaction().begin();
-        em.persist(run);
-        em.getTransaction().commit();
-
-        return true;
+        return run;
     }
 }
