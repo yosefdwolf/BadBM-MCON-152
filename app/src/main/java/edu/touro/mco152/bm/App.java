@@ -1,6 +1,7 @@
 package edu.touro.mco152.bm;
 
 import edu.touro.mco152.bm.commands.SimpleExecutor;
+import edu.touro.mco152.bm.observer.RulesObserver;
 import edu.touro.mco152.bm.persist.DatabaseObserver;
 import edu.touro.mco152.bm.persist.DiskRun;
 import edu.touro.mco152.bm.ui.Gui;
@@ -272,6 +273,7 @@ public class App {
         SimpleExecutor executor = new SimpleExecutor();
         executor.addObserver(new DatabaseObserver());
         executor.addObserver(new Gui.RunPanelObserver());
+        executor.addObserver(new RulesObserver());
         worker = new DiskWorker(swingUI, executor);
         Gui.progressBar.setString("0 / " + App.targetTxSizeKb());
 
