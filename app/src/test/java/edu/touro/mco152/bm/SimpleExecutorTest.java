@@ -2,10 +2,12 @@ package edu.touro.mco152.bm;
 
 import edu.touro.mco152.bm.commands.BenchmarkCommand;
 import edu.touro.mco152.bm.commands.BenchmarkExecutor;
+import edu.touro.mco152.bm.commands.BenchmarkObserver;
 import edu.touro.mco152.bm.commands.ReadCommand;
 import edu.touro.mco152.bm.commands.SimpleExecutor;
 import edu.touro.mco152.bm.commands.WriteCommand;
 import edu.touro.mco152.bm.persist.DiskRun;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,6 +26,20 @@ import static org.junit.jupiter.api.Assertions.*;
  * read from {@link App}.
  */
 class SimpleExecutorTest {
+
+    private static boolean observerWasCalled = false;
+
+    private static class TestObserver implements BenchmarkObserver {
+        @Override
+        public void onBenchmarkComplete(DiskRun run) {
+            observerWasCalled = true;
+        }
+    }
+
+    @AfterAll
+    static void verifyObserverWasInvoked() {
+        assertTrue(observerWasCalled, "BenchmarkObserver should have been notified");
+    }
 
     // Assignment-specified constants — must not be taken from App
     private static final int NUM_MARKS = 25;
@@ -46,7 +62,8 @@ class SimpleExecutorTest {
     @Test
     void writeBenchmarkCompletesSuccessfully() {
         NonSwingBenchmarkUI ui = new NonSwingBenchmarkUI();
-        BenchmarkExecutor executor = new SimpleExecutor();
+        SimpleExecutor executor = new SimpleExecutor();
+        executor.addObserver(new TestObserver());
         BenchmarkCommand write = new WriteCommand(
                 ui, NUM_MARKS, NUM_BLOCKS, BLOCK_SIZE_KB, BLOCK_SEQUENCE, App.nextMarkNumber);
 
@@ -69,7 +86,8 @@ class SimpleExecutorTest {
      */
     @Test
     void readBenchmarkCompletesSuccessfully() {
-        BenchmarkExecutor executor = new SimpleExecutor();
+        SimpleExecutor executor = new SimpleExecutor();
+        executor.addObserver(new TestObserver());
 
         // Setup: write data so there is something to read
         NonSwingBenchmarkUI writeUi = new NonSwingBenchmarkUI();
