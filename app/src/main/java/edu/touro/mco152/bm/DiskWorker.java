@@ -24,9 +24,26 @@ import static edu.touro.mco152.bm.App.*;
 public class DiskWorker {
 
     private final BenchmarkUI ui;
+    private final BenchmarkExecutor executor;
 
+    /**
+     * Convenience constructor that creates a default {@link SimpleExecutor} with no observers.
+     * Used by tests (e.g. DiskWorkerDIPTest) that do not need observer notifications.
+     */
     public DiskWorker(BenchmarkUI ui) {
+        this(ui, new SimpleExecutor());
+    }
+
+    /**
+     * Primary constructor for Swing-mode use. Accepts a pre-configured executor
+     * so that {@link App} can register observers before the benchmark runs.
+     *
+     * @param ui       the UI adapter for progress and message callbacks
+     * @param executor the executor with observers already registered
+     */
+    public DiskWorker(BenchmarkUI ui, BenchmarkExecutor executor) {
         this.ui = ui;
+        this.executor = executor;
     }
 
     /**
@@ -55,8 +72,6 @@ public class DiskWorker {
 
         int startFileNum = App.nextMarkNumber;
         boolean success = true;
-
-        BenchmarkExecutor executor = new SimpleExecutor();
 
         if (App.writeTest) {
             executor.runCommand(new WriteCommand(ui, App.numOfMarks, App.numOfBlocks,
