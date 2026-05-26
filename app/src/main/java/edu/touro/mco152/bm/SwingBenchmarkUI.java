@@ -79,10 +79,7 @@ public class SwingBenchmarkUI implements BenchmarkUI {
      */
     @Override
     public void benchmarkComplete(boolean success) {
-        SwingUtilities.invokeLater(() -> {
-            App.loadSavedRuns();
-            Gui.mainFrame.adjustSensitivity();
-        });
+        SwingUtilities.invokeLater(() -> Gui.mainFrame.adjustSensitivity());
     }
 
     /**

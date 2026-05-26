@@ -2,6 +2,8 @@ package edu.touro.mco152.bm.ui;
 
 import edu.touro.mco152.bm.App;
 import edu.touro.mco152.bm.DiskMark;
+import edu.touro.mco152.bm.commands.BenchmarkObserver;
+import edu.touro.mco152.bm.persist.DiskRun;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -127,6 +129,20 @@ public final class Gui {
         progressBar.setValue(0);
         Gui.mainFrame.refreshReadMetrics();
         Gui.mainFrame.refreshWriteMetrics();
+    }
+
+    /**
+     * Observer that adds a completed run to the run history panel on the EDT.
+     *
+     * <p>Registered on {@link edu.touro.mco152.bm.commands.SimpleExecutor} for
+     * Swing-mode benchmarks so the panel stays current without a full DB reload.
+     */
+    public static class RunPanelObserver implements BenchmarkObserver {
+
+        @Override
+        public void onBenchmarkComplete(DiskRun run) {
+            javax.swing.SwingUtilities.invokeLater(() -> Gui.runPanel.addRun(run));
+        }
     }
 
     public static void updateLegend() {
