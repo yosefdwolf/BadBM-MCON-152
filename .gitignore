@@ -39,3 +39,7 @@ build
 # Compiled class files
 *.class
 build/
+
+# Slack token - must never be committed
+slacktoken.txt
+**/slacktoken.txt
