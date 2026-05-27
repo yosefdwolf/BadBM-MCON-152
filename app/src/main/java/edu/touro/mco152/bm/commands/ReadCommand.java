@@ -5,8 +5,6 @@ import edu.touro.mco152.bm.BenchmarkUI;
 import edu.touro.mco152.bm.DiskMark;
 import edu.touro.mco152.bm.Util;
 import edu.touro.mco152.bm.persist.DiskRun;
-import edu.touro.mco152.bm.persist.EM;
-import jakarta.persistence.EntityManager;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.RandomAccessFile;
@@ -36,6 +34,14 @@ public class ReadCommand implements BenchmarkCommand {
     private final DiskRun.BlockSequence blockSequence;
     private final int startFileNum;
 
+    /**
+     * @param ui           UI adapter for progress and message callbacks
+     * @param numOfMarks   number of benchmark marks to record
+     * @param numOfBlocks  number of blocks per mark
+     * @param blockSizeKb  size of each block in kilobytes
+     * @param blockSequence sequential or random block access pattern
+     * @param startFileNum  starting mark number for file naming
+     */
     public ReadCommand(BenchmarkUI ui, int numOfMarks, int numOfBlocks,
                        int blockSizeKb, DiskRun.BlockSequence blockSequence, int startFileNum) {
         this.ui = ui;
@@ -46,8 +52,14 @@ public class ReadCommand implements BenchmarkCommand {
         this.startFileNum = startFileNum;
     }
 
+    /**
+     * Runs the read benchmark, recording throughput for each mark.
+     *
+     * @return the completed {@link DiskRun} with final metrics, or {@code null}
+     *         if the data files were not found
+     */
     @Override
-    public boolean execute() {
+    public DiskRun execute() {
         DiskRun run = new DiskRun(DiskRun.IOMode.READ, blockSequence);
         run.setNumMarks(numOfMarks);
         run.setNumBlocks(numOfBlocks);
@@ -94,7 +106,7 @@ public class ReadCommand implements BenchmarkCommand {
                 Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
                 ui.showMessage("May not have done Write Benchmarks, so no data available to read."
                         + ex.getMessage());
-                return false;
+                return null;
             } catch (Exception ex) {
                 Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -115,11 +127,6 @@ public class ReadCommand implements BenchmarkCommand {
             run.setEndTime(new Date());
         }
 
-        EntityManager em = EM.getEntityManager();
-        em.getTransaction().begin();
-        em.persist(run);
-        em.getTransaction().commit();
-
-        return true;
+        return run;
     }
 }

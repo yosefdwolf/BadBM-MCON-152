@@ -1,5 +1,8 @@
 package edu.touro.mco152.bm;
 
+import edu.touro.mco152.bm.commands.SimpleExecutor;
+import edu.touro.mco152.bm.observer.RulesObserver;
+import edu.touro.mco152.bm.persist.DatabaseObserver;
 import edu.touro.mco152.bm.persist.DiskRun;
 import edu.touro.mco152.bm.ui.Gui;
 import edu.touro.mco152.bm.ui.MainFrame;
@@ -267,7 +270,11 @@ public class App {
         // SwingBenchmarkUI needs the SwingWorker reference to implement isCancelled(),
         // so we create it first and wire the runner in before executing.
         SwingBenchmarkUI swingUI = new SwingBenchmarkUI();
-        worker = new DiskWorker(swingUI);
+        SimpleExecutor executor = new SimpleExecutor();
+        executor.addObserver(new DatabaseObserver());
+        executor.addObserver(new Gui.RunPanelObserver());
+        executor.addObserver(new RulesObserver());
+        worker = new DiskWorker(swingUI, executor);
         Gui.progressBar.setString("0 / " + App.targetTxSizeKb());
 
         //5. wrap in a SwingWorker so the benchmark runs off the EDT
